@@ -3,9 +3,7 @@ Andrew Loop-Perez
 006198799
 CSE 516 Winter 2020
 Implementation of Q-learning in Matlab
-%}
 
-%{
 1. intitalize R and Q matrices 
 
 Episodes
@@ -25,7 +23,52 @@ Program output
 2. show that Q matrix is being updated 
 3. Output optimal path to goal
     Class Example: optimal path = 1 -> 2 -> 3 -> 6
+     
+ACTIONS:
+1 = UP
+2 = DOWN
+3 = LEFT 
+4 = RIGHT
+    
 %}
+1;
+
+function s = state_num(row, col, n)
+  s = ((row * n) - (n - col));  
+end 
+
+function M = init_grid(n)
+  M = zeros(n);
+end
+
+function R = reward(n)
+  R = zeros((n^2), 4);
+end 
+
+n = 4;
+start_state = 1;
+goal = 11;
+row = 2;
+col = 3;
+
+grid_world = init_grid(n)
+Q = init_grid(n)
+R = reward(n)
+state = state_num(row, col, n)
+size(R)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
