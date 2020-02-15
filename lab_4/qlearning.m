@@ -29,6 +29,10 @@ ACTIONS:
 2 = DOWN
 3 = LEFT 
 4 = RIGHT
+
+REWARD:
+rows = states (1 -> n)
+
     
 %}
 1;
@@ -45,20 +49,38 @@ function R = reward(n)
   R = zeros((n^2), 4);
 end 
 
+function action = get_random_action(row, col, n)
+  %action = randi([1,4], 1);
+  rand_action = randi([1,4], 1);
+  while rand_action ~= 0
+      %rand_action = randi([1,4], 1);
+      
+      if row == 1 && rand_action == 1
+          rand_action = 0;
+      elseif row == n && rand_action == 4
+          rand_action = 0;
+      end 
+      rand_action = randi([1,4], 1);
+    end 
+    
+    action = rand_action;
+end 
+
 n = 4;
 start_state = 1;
 goal = 11;
-row = 2;
-col = 3;
+row = 1;
+col = 1;
 
-grid_world = init_grid(n)
-Q = init_grid(n)
-R = reward(n)
-state = state_num(row, col, n)
-size(R)
+grid_world = init_grid(n);
+Q = init_grid(n);
+R = reward(n);
+%state = state_num(row, col, n)
+%size(R)
 
-
-
+for i = 1:20
+  new_action = get_random_action(row, col, n)
+end 
 
 
 
