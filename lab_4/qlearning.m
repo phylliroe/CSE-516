@@ -33,7 +33,7 @@ ACTIONS:
 REWARD:
 rows = states (1 -> n)
 
-    
+Q Matrix: row = State S, column = action
 %}
 1;
 
@@ -128,22 +128,31 @@ R = create_rewards(n, goal);
 %x = setdiff(1:4, [3])
 %y = x(randi(numel(x)))
 
-current_state = start_state
-while current_state ~= goal
-  action = get_random_action(row, col, n);
-  [row, col] = next_state(action, row, col);
-  new_state = state_num(row, col, n);
-  %display(R(current_state))
-  imm_reward = R(new_state);
+%current_state = start_state;
+for i = 1:1000
+  current_state = start_state;
+  while current_state ~= goal
+    action = get_random_action(row, col, n);
+    [row, col] = next_state(action, row, col);
+    new_state = state_num(row, col, n);
+    %display(R(current_state))
+    imm_reward = R(new_state);
+    
+    possible_q = Q(current_state,:);
+    q_value = imm_reward + (gamma * max(possible_q));
+    
+    Q(current_state, action) = q_value; 
+
+    current_state = new_state;
+  end 
   
-  Q(current_state, action) = imm_reward; 
-
-  current_state = new_state
- 
+  %display(Q)
+  %pause(1);
 end 
-
 %Q(current_state,2) = 5
 display(Q)
+
+
 
 
 
