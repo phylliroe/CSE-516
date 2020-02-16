@@ -84,6 +84,10 @@ function R = create_rewards(n, goal)
    R(goal) = 10;
 end
 
+function Q = create_Q(n)
+   Q = zeros((n^2), 4);
+end 
+
 function [new_row, new_col] = next_state(action, row, col)
   new_row = row;
   new_col = col;
@@ -101,16 +105,19 @@ function [new_row, new_col] = next_state(action, row, col)
 end 
 
 n = 4;
-start_state = 4;
+start_state = 1;
 goal = 11;
-row = 2;
-col = 2;
+row = 1;
+col = 1;
+gamma = 0.8;
 
 grid_world = init_grid(n);
-Q = init_grid(n);
+Q = create_Q(n);
+
 %R = reward(n);
 %state = state_num(row, col, n)
 %size(R)
+
 R = create_rewards(n, goal);
 
 
@@ -122,11 +129,21 @@ R = create_rewards(n, goal);
 %y = x(randi(numel(x)))
 
 current_state = start_state
-action = get_random_action(row, col, n)
-[new_row, new_col] = next_state(action, row, col)
-current_state = state_num(new_row, new_col, n)
+while current_state ~= goal
+  action = get_random_action(row, col, n);
+  [row, col] = next_state(action, row, col);
+  new_state = state_num(row, col, n);
+  %display(R(current_state))
+  imm_reward = R(new_state);
+  
+  Q(current_state, action) = imm_reward; 
 
+  current_state = new_state
+ 
+end 
 
+%Q(current_state,2) = 5
+display(Q)
 
 
 
