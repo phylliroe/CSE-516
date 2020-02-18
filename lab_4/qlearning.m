@@ -1,10 +1,12 @@
 %{
-=========================================================================
+====================================================================
+====================================================================
 Name: Andrew Loop-Perez
 ID: 006198799
 Couse: CSE 516 Winter 2020
 Assignment: Lab #4
-=========================================================================
+====================================================================
+====================================================================
 %}
 
 %{
@@ -89,26 +91,36 @@ end
 
 %------------------------------------------------------
 % Grid world is nxn 
-%disp("Sample Output")
-%disp("Grid size is nxn")
-n = 5;
+n = 4;
 % row and column positions of the starting state
 starting_row = 1;
 starting_col = 1;
 % Calculate the starting state
 start_state = state_num(starting_row, starting_col, n);
 % Goal state
-goal = 15;
+goal = 11;
 % Gamma
 gamma = 0.8;
 % Number of iterations over the grid
 iterations = 100;
 % --------------------------------------------------
 
+% Display the grid world
+count = 1;
+grid = zeros(n, n);
+for i = 1:n
+  for j = 1:n
+    grid(i,j) = count;
+    count = count + 1;
+  end 
+end 
+    
+display(start_state)
+display(goal)
+display(grid)
 
 % Initialize the Reward vector and the Q matrix
-%disp("Initial Q Matrix")
-Q = create_Q(n);
+Q = create_Q(n)
 R = create_rewards(n, goal);
 
 for episode = 1:iterations
@@ -139,16 +151,37 @@ for episode = 1:iterations
     current_state = new_state;
   end 
   
-  % Display the most recent episode and the current Q matrix
-  display(episode)
-  display(Q)
-  pause(1);
+  % Display every 10th episode
+  if rem(episode, 10) == 0
+    display(episode)
+    display(Q)
+  end 
   
 end
 
-%disp("Final Q Matrix")
-%display(Q)
+shortest_path = [start_state];
+action = 0;
+row = starting_row;
+col = starting_col;
+state = start_state;
 
+% Use the Q matrix to find the shortest path from the start state to the goal
+while state ~= goal
+  qval = 0;
+  for i = 1:4
+    if Q(state, i) >= qval
+      qval = Q(state, i);
+      action = i;
+    end   
+  end    
+  [row col] = next_state(action, row, col);
+  state = state_num(row, col, n) ;
+  shortest_path = [shortest_path state];
+end
+
+% Display the shortest path
+display(shortest_path)
+  
 
 
 
