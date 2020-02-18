@@ -1,15 +1,15 @@
 %{
-Andrew Loop-Perez
-006198799
-CSE 516 Winter 2020
-Implementation of Q-learning in Matlab
+=========================================================================
+Name: Andrew Loop-Perez
+ID: 006198799
+Couse: CSE 516 Winter 2020
+Assignment: Lab #4
+=========================================================================
+%}
 
-Program output
-1. intitalized nxn grid world
-2. show that Q matrix is being updated 
-3. Output optimal path to goal
-    Class Example: optimal path = 1 -> 2 -> 3 -> 6
-     
+%{
+Script file was written using Ocatave 
+
 ACTIONS:
 1 = UP
 2 = DOWN
@@ -20,6 +20,7 @@ REWARD:
 rows = states (1 -> n)
 Q Matrix: row = State S, column = action
 %}
+
 1;
 
 % Calcualte the number of a state from its row and column position
@@ -85,28 +86,28 @@ function [new_row, new_col] = next_state(action, row, col)
    end 
 end 
 
-% Prompt for size of the grid. Always nxn
-%disp()
-%n_prompt = "Enter the value for n: ";
-%n = input(n_prompt)
-n = 4;
 
+%------------------------------------------------------
+% Grid world is nxn 
+%disp("Sample Output")
+%disp("Grid size is nxn")
+n = 5;
 % row and column positions of the starting state
 starting_row = 1;
-starting_col = 4;
-
+starting_col = 1;
 % Calculate the starting state
-start_state = state_num(starting_row, starting_col, n)
-
+start_state = state_num(starting_row, starting_col, n);
 % Goal state
-goal = 5;
-
+goal = 15;
 % Gamma
 gamma = 0.8;
+% Number of iterations over the grid
+iterations = 100;
+% --------------------------------------------------
 
-iterations = 500
 
 % Initialize the Reward vector and the Q matrix
+%disp("Initial Q Matrix")
 Q = create_Q(n);
 R = create_rewards(n, goal);
 
@@ -127,11 +128,8 @@ for episode = 1:iterations
 
     % Get the reward for the state
     imm_reward = R(new_state);
-
-    % Get the possible Q values    
-    possible_q = Q(current_state,:);
-    
-    % 
+  
+    possible_q = Q(new_state,:); 
     q_value = imm_reward + (gamma * max(possible_q));
     
     % Update the Q matrix
@@ -140,15 +138,16 @@ for episode = 1:iterations
     % Update the current state
     current_state = new_state;
   end 
+  
+  % Display the most recent episode and the current Q matrix
   display(episode)
   display(Q)
-  %pause(0.5);
+  pause(1);
+  
 end
 
- 
-%Q(current_state,2) = 5
+%disp("Final Q Matrix")
 %display(Q)
-
 
 
 
