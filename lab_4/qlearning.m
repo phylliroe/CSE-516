@@ -4,20 +4,6 @@ Andrew Loop-Perez
 CSE 516 Winter 2020
 Implementation of Q-learning in Matlab
 
-1. intitalize R and Q matrices 
-
-Episodes
-2. for i from 1 to 1000          <--- 1000 episodes 
-    current state = Pick a random state (s)
-    Pick a random action for that state (a)
-    Update Q(s, a) in the Q matrix
-
-    current state = next state
-    update Q
-
-    if (current state = goal state)
-        go to next episode
-
 Program output
 1. intitalized nxn grid world
 2. show that Q matrix is being updated 
@@ -32,24 +18,16 @@ ACTIONS:
 
 REWARD:
 rows = states (1 -> n)
-
 Q Matrix: row = State S, column = action
 %}
 1;
 
+% Calcualte the number of a state from its row and column position
 function s = state_num(row, col, n)
   s = ((row * n) - (n - col));  
 end 
 
-function M = init_grid(n)
-  M = zeros(n);
-end
-
-%function R = reward(n)
-%  R = zeros((n^2), 4);
-%end 
-
-% Generate a random action based on the agents current row and column position. 
+% Generate a random action based on the agent's current row and column position 
 function action = get_random_action(row, col, n)
   x = 0;
   if row == 1
@@ -78,16 +56,19 @@ function action = get_random_action(row, col, n)
     action = x(randi(numel(x)));   
 end 
 
+% Create a vector containing the reward values for each state
 % [1 2 3....n]
 function R = create_rewards(n, goal)
    R = ones(1,(n^2)) * -1;
    R(goal) = 10;
 end
 
+% Initialize the Q matrix as an nxn matrix of zeros
 function Q = create_Q(n)
    Q = zeros((n^2), 4);
 end 
 
+% Compute the new row and column positions after an action is performed
 function [new_row, new_col] = next_state(action, row, col)
   new_row = row;
   new_col = col;
@@ -104,53 +85,69 @@ function [new_row, new_col] = next_state(action, row, col)
    end 
 end 
 
+% Prompt for size of the grid. Always nxn
+%disp()
+%n_prompt = "Enter the value for n: ";
+%n = input(n_prompt)
 n = 4;
-start_state = 1;
-goal = 11;
-row = 1;
-col = 1;
+
+% row and column positions of the starting state
+starting_row = 1;
+starting_col = 4;
+
+% Calculate the starting state
+start_state = state_num(starting_row, starting_col, n)
+
+% Goal state
+goal = 5;
+
+% Gamma
 gamma = 0.8;
 
-grid_world = init_grid(n);
+iterations = 500
+
+% Initialize the Reward vector and the Q matrix
 Q = create_Q(n);
-
-%R = reward(n);
-%state = state_num(row, col, n)
-%size(R)
-
 R = create_rewards(n, goal);
 
-
-%for i = 1:20
- % curr_state = state_num(row, col, n);
-  %new_action = get_random_action(row, col, n)
-%end
-%x = setdiff(1:4, [3])
-%y = x(randi(numel(x)))
-
-%current_state = start_state;
-for i = 1:1000
+for episode = 1:iterations
+  % Set the starting row, column, and state at the start of each iteration
   current_state = start_state;
+  row = starting_row;
+  col = starting_col;
+  
+  % Stop the current iteration when the goal state is reached
   while current_state ~= goal
+    % Generate a random action
     action = get_random_action(row, col, n);
+    
+    % Update the row and column positions and get the new state
     [row, col] = next_state(action, row, col);
     new_state = state_num(row, col, n);
-    %display(R(current_state))
+
+    % Get the reward for the state
     imm_reward = R(new_state);
-    
+
+    % Get the possible Q values    
     possible_q = Q(current_state,:);
+    
+    % 
     q_value = imm_reward + (gamma * max(possible_q));
     
+    % Update the Q matrix
     Q(current_state, action) = q_value; 
 
+    % Update the current state
     current_state = new_state;
   end 
-  
-  %display(Q)
-  %pause(1);
-end 
+  display(episode)
+  display(Q)
+  %pause(0.5);
+end
+
+ 
 %Q(current_state,2) = 5
-display(Q)
+%display(Q)
 
 
 
