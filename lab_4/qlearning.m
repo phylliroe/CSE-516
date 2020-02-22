@@ -98,7 +98,7 @@ starting_col = 1;
 % Calculate the starting state
 start_state = state_num(starting_row, starting_col, n);
 % Goal state
-goal = 11;
+goal = 15;
 % Gamma
 gamma = 0.8;
 % Number of iterations over the grid
@@ -120,7 +120,7 @@ display(goal)
 display(grid)
 
 % Initialize the Reward vector and the Q matrix
-Q = create_Q(n)
+Q = create_Q(n);
 R = create_rewards(n, goal);
 
 for episode = 1:iterations
