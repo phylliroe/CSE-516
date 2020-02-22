@@ -1,9 +1,11 @@
 %{
 ===========================================================
+===========================================================
 Name: Andrew Loop-Perez
 ID: 006198799
 Course: CSE 516 Winter 2020
 Assignment: Lab #5
+===========================================================
 ===========================================================
 
 Script file written using Octave
@@ -35,7 +37,7 @@ function indices = reassignPoints(X, centroids)
     % Caluclate the distance between the current data point and the 
     % first centroid
    
-   current_centroid = centroids(1, :);
+    current_centroid = centroids(1, :);
     min_distance = distance(data, current_centroid);  
     index = 1;
     
