@@ -98,7 +98,7 @@ starting_col = 1;
 % Calculate the starting state
 start_state = state_num(starting_row, starting_col, n);
 % Goal state
-goal = 15;
+goal = 11;
 % Gamma
 gamma = 0.8;
 % Number of iterations over the grid
@@ -153,8 +153,8 @@ for episode = 1:iterations
   
   % Display every 10th episode
   if rem(episode, 10) == 0
-    display(episode)
-    display(Q)
+    %display(episode)
+    %display(Q)
   end 
   
 end
@@ -180,6 +180,7 @@ while state ~= goal
 end
 
 % Display the shortest path
+display(Q)
 display(shortest_path)
   
 

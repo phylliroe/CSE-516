@@ -41,9 +41,9 @@ function indices = reassignPoints(X, centroids)
     min_distance = distance(data, current_centroid);  
     index = 1;
     
-    % Caluclate the distances between the current data point and the rest of 
-    % the centroids. Place the index of the centroid that is closest to the 
-    % current data point within indices.
+   % Caluclate the distances between the current data point and the rest of 
+   % the centroids. Place the index of the centroid that is closest to the 
+   % current data point within indices.
   
   for j = 2:K
       current_centroid = centroids(j, :);
@@ -94,7 +94,7 @@ end
 
 X = load("s1.dat");
 epoch = 20;
-K = 5;
+K = 5; % number of clusters
 centroids = initCentroids(X, K);
 
 for i=1:epoch
@@ -102,6 +102,7 @@ for i=1:epoch
   centroids = updateCentroids(X, indices, K);
 end
 
+% display data points and clusters
 scatter(X(:,1),X(:,2),32,indices,'filled')
 
 
